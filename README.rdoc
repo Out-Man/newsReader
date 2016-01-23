@@ -1,0 +1,3 @@
+== NewsReader
+
+Ruby on Rails app that displays news from custom RSS feeds with social features.

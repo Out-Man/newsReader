@@ -1,0 +1,7 @@
+%div.container
+  %div.row
+    %div.span12
+      = form_for(@user, :html => {:class => "offset3 span5 offset4"}) do |f|
+        = render :partial => "shared/signup_errors"
+        = render :partial => "signup_edit_form", :locals => { :f => f }
+        %p= f.submit "Create Account", :class => "pull-right btn btn-inverse"

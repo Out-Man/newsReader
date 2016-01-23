@@ -1,0 +1,7 @@
+- if @news_list.errors.any?
+  %div#error_explanation
+    %div.alert.alert-error
+      %strong There are errors, please double check.
+    %ul
+      - @news_list.errors.full_messages.each do |msg|
+        %li= msg

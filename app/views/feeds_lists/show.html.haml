@@ -1,0 +1,6 @@
+%div.container
+  %div.row
+    %div.span9
+      = render :partial => "shared/render_articles", :locals => { :articles => @articles }
+    %div.span3
+      = render :partial => "shared/right_column"

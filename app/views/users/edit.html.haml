@@ -1,0 +1,17 @@
+%div.container
+  %div.row
+    %div.span9
+      %table.table
+        %tr
+          = form_for @user, :html => { :multipart => true } do |f|
+            %td.span2
+              -if not @user.avatar.present?
+                = image_tag ('/assets/emptyprofile.png'), :class => "img-polaroid" 
+              -else
+                = image_tag @user.avatar.url(:medium) 
+              = f.file_field :avatar
+            %td.span7
+              = render :partial => "shared/signup_errors"
+              = render :partial => "signup_edit_form", :locals => { :f => f }
+              = link_to "Back to Profile Page", user_path(@user), :class => "pull-left btn btn-inverse"
+              %p= f.submit "Save changes", :class => "pull-right btn btn-inverse"

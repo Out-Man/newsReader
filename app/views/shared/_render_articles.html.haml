@@ -1,0 +1,11 @@
+- articles.each_slice(2) do |articles_group|
+  %div
+    - articles_group.each do |article|
+      %div.boxgrid.caption
+        = link_to image_tag(article.image_url), article_path(article), :class => "overlay", :id => article.title
+        = image_tag(article.image_url)
+        %div.boxcaption
+          %div.textblock
+            %small
+              %strong= article.feed_name
+            %p= "#{article.title}"

@@ -1,0 +1,10 @@
+%div.container
+  %div.row
+    %div.span9
+      %h4 Latest News
+      = render :partial => "shared/render_articles", :locals => { :articles => @articles.take(10) }
+      - if !@shared_articles.nil?
+        %h4 News Shared by Your Friends
+        = render :partial => "shared/render_articles", :locals => { :articles => @shared_articles.take(10) }
+    %div.span3
+      = render :partial => "shared/right_column"

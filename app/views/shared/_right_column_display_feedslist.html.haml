@@ -1,0 +1,8 @@
+%div.btn-toolbar
+  %div.btn-group
+    = link_to feedslist.name, user_feeds_list_path(current_user, feedslist), :class => "btn"
+    %button.btn.dropdown-toggle{"data-toggle" => "dropdown"}
+      %span.caret
+    %ul.dropdown-menu
+      %li= link_to "Edit FeedsList", edit_user_feeds_list_path(current_user, feedslist)
+      %li= link_to "Delete FeedsList", user_feeds_list_path(current_user, feedslist), :method => "delete"

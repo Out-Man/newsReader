@@ -1,0 +1,8 @@
+%div.btn-toolbar
+  %div.btn-group
+    = link_to newslist.name, user_news_list_path(current_user, newslist), :class => "btn"
+    %button.btn.dropdown-toggle{"data-toggle" => "dropdown"}
+      %span.caret
+    %ul.dropdown-menu
+      %li= link_to "Edit NewsList", edit_user_news_list_path(current_user, newslist)
+      %li= link_to "Delete NewsList", user_news_list_path(current_user, newslist), :method => "delete"

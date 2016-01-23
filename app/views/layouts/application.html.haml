@@ -1,0 +1,52 @@
+!!! 5
+%html
+  %head
+    %title NewsReader
+    %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1.0"}
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    %div.navbar.navbar-fixed-top
+      %div.navbar-inner
+        %div.container
+          = link_to "NEWSREADER DIGEST", "/", :class => "brand"
+          %ul.nav.pull-right
+            - if signed_in?
+              - if !pending_requests.empty?
+                %li.dropdown
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                    New friend requests!
+                    %b.caret
+                  %ul.dropdown-menu
+                    %table.table.table-hover.table-condensed.requestTable
+                      - pending_requests.each do |user|
+                        %tr
+                          %td= user.name
+                          %td= link_to "Confirm", friend_path(user), :method => "put", :class => "btn btn-mini btn-primary btn-notify"
+              %li= link_to "Find Users", users_path
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  = current_user.name
+                  %b.caret
+                %ul.dropdown-menu
+                  %li= link_to "Profile", current_user
+                  %li= link_to "Create NewsList", new_user_news_list_path(current_user)
+                  %li= link_to "Create FeedsList", new_user_feeds_list_path(current_user)
+                  %li.divider
+                  %li= link_to "Log Out", signout_path, :method => "delete"
+              -if not current_user.avatar.present?
+                = link_to image_tag('/assets/emptyprofile.png'), current_user, :class => "pictureHeader img-polaroid"
+              -else
+                = image_tag current_user.avatar.url(:medium) , :class => "pictureHeader"
+            - else
+              %li= link_to "Log In", signin_path, id: 'log_in'
+              %li= link_to "Sign Up", signup_path
+    - if flash[:success] or flash[:notice]
+      %div.container
+        %div.row
+          %div.span12
+            %div.alert
+              %strong= flash[:success]
+              %strong= flash[:notice]
+    = yield

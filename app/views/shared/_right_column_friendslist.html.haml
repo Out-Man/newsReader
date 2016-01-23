@@ -1,0 +1,12 @@
+%div.well
+  %h4 Friends List
+  %table.table
+    - @users.each do |user|
+      - if current_user != user
+        - if current_user.friend_with? user
+          %tr
+            - if user.avatar.present?
+              %td= image_tag(user.avatar.url(:small))
+            - else
+              %td= image_tag ('/assets/emptyprofile.png'), :size => "42x42", :class => "img-polaroid"
+            %td= link_to user.name, user

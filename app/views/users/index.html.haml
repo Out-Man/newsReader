@@ -1,0 +1,27 @@
+%div.container
+  %div.row
+    %div.span12
+      %h3 Users List
+      %table.table
+        %tr
+          %th Avatar
+          %th Name
+          %th Email
+          %th Add Friend
+        - @users.each do |user|
+          - if current_user != user
+            %tr.row_height
+              - if user.avatar.present?
+                %td= image_tag (user.avatar.url(:small))
+              - else
+                %td= image_tag ('/assets/emptyprofile.png'), :size => "42x42", :class => "img-polaroid"
+              %td= link_to user.name, user
+              %td= user.email
+              - if current_user.friend_with? user
+                %td= link_to "Delete Friend", friend_path(user), :method => "DELETE", :class => "btn btn-mini btn-danger"
+              - elsif current_user.invited? user
+                %td= "Invitation sent..."
+              - elsif current_user.invited_by? user
+                %td= link_to "Confirm Request", friend_path(user), :method => "put", :class => "btn btn-mini btn-info"
+              - else
+                %td= link_to "Add Friend", friends_path(:user_id => user.id), :method => "POST", :class => "btn btn-small"

@@ -1,0 +1,72 @@
+%div.container
+  %div.row
+    %div.span9
+      %table.table.userTable
+        %tr
+          - if current_user?(@user)
+            %td{:colspan => 2}
+              = link_to "Edit Profile", edit_user_path(@user), :class => "pull-right btn"
+              = link_to "Create FeedsList", new_user_feeds_list_path(@user), :class => "pull-right btn"
+              = link_to "Create NewsList", new_user_news_list_path(@user), :class => "pull-right btn"
+          - else
+            - if friend_with?
+              %td{:colspan => 2}= link_to "Delete Friend", friend_path(profile_user), :method => "DELETE", :class => "pull-right btn"
+            - elsif pending_invite?
+              %td{:colspan => 2}
+                %p.pull-right Invitation sent...
+            - elsif pending_request?
+              %td{:colspan => 2}= link_to "Confirm Request", friend_path(profile_user), :method => "put", :class => "pull-right btn"
+            - else
+              %td{:colspan => 2}= link_to "Add Friend", friends_path(:user_id => params[:id]), :method => "POST", :class => "pull-right btn"
+        %tr
+          %td.span2
+            -if not @user.avatar.present?
+              = image_tag ('/assets/emptyprofile.png'), :size=> "100x100", :class => "img-polaroid" 
+            -else
+              = image_tag @user.avatar.url(:medium) 
+          %td.span9
+            %table.table
+              %tr
+                %td Name
+                %td= @user.name
+              %tr
+                %td Email
+                %td= @user.email
+              %tr
+                %td{:colspan => 2}
+                  %h5 FeedsLists
+                  - if !@user.feeds_lists.empty?
+                    %ul
+                      - @user.feeds_lists.each do |feedslist|
+                        - if !feedslist.is_private
+                          %li= link_to feedslist.name, user_feeds_list_path(@user, feedslist)
+                  - else
+                    %p This user has no public FeedsList
+              %tr
+                %td{:colspan => 2}
+                  %h5 NewsLists
+                  - if !@user.news_lists.empty?
+                    %ul
+                      - @user.news_lists.each do |newslist|
+                        %li= link_to newslist.name, user_news_list_path(@user, newslist)
+                  - else
+                    %p This user has no public NewsList
+              %tr
+                %td{:colspan => 2}
+                  %h5 Shared Articles
+                  - if !@user.shared_list.articles.empty?
+                    %ul
+                      - @user.shared_list.articles.each do |article|
+                        %li
+                          = link_to article.title, article_path(article)
+                          - if current_user?(@user)
+                            |
+                            = link_to "Delete", remove_article_user_shared_list_path(current_user, article)
+                  - else
+                    %p This user has no shared articles.
+    %div.span3
+      %tr
+        = render :partial => "shared/right_column"
+      %tr
+        = render :partial => "shared/right_column_friendslist"
+

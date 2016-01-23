@@ -1,0 +1,8 @@
+%div.container
+  %div.row
+    %div.span9
+      - if @articles.empty?
+        %p This NewsList is empty! You should consider adding some articles.
+      = render :partial => "shared/render_articles", :locals => { :articles => @articles }
+    %div.span3
+      = render :partial => "shared/right_column"

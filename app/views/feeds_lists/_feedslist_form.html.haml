@@ -1,0 +1,12 @@
+= f.label :name
+= f.text_field :name, :class => "input-block-level"
+
+= f.label :feeds, "Available Feeds"
+= f.select :feeds, options_from_collection_for_select(@feeds, "id", "name"), { :include_blank => "None" }, { :multiple => true, :class => "input-block-level"}
+
+= f.label :feeds_url
+= f.text_field :feeds_url, :class => "input-block-level"
+
+= f.label :is_private, :class => "checkbox" do
+  Make Private?
+  = f.check_box :is_private, :class => "checkbox"

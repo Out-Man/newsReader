@@ -1,0 +1,16 @@
+- if signed_in?
+  %div.well
+    %p Welcome back, #{current_user.name}!
+    - if !current_user.feeds_lists.empty?
+      %h4 Your FeedsLists
+      - current_user.feeds_lists.where(:is_private => false).each do |feedslist|
+        = render :partial => "shared/right_column_display_feedslist", :locals => { :feedslist => feedslist }
+      - if !current_user.feeds_lists.where(:is_private => true).empty?
+        %p
+          %i Privated
+        - current_user.feeds_lists.where(:is_private => true).each do |feedslist|
+          = render :partial => "shared/right_column_display_feedslist", :locals => { :feedslist => feedslist }
+    - if !current_user.news_lists.empty?
+      %h4 Your NewsLists
+      - current_user.news_lists.each do |newslist|
+        = render :partial => "shared/right_column_display_newslist", :locals => { :newslist => newslist }

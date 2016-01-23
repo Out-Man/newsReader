@@ -1,0 +1,27 @@
+%div.container
+  %div.row
+    %div.span9
+      %div.well
+        %h2 #{@article.title}
+        %h4 Written by #{@article.author} on #{@article.published_at.strftime("%B %d, %Y")}
+        - @content.each do |paragraph|
+          = paragraph.html_safe
+    %div.span3
+      %div.well
+        - if signed_in?
+          %div.btn-toolbar
+            %div.btn-group
+              %button.btn.btn-inverse.dropdown-toggle{"data-toggle" => "dropdown"}
+                Add to ...
+                %span.caret
+              %ul.dropdown-menu
+                - if !current_user.news_lists.empty?
+                  - current_user.news_lists.each do |newslist|
+                    %li= link_to newslist.name, add_article_user_news_list_path(current_user, newslist, article_id: @article.id)
+                  %li.divider
+                %li= link_to "Create NewsList", new_user_news_list_path(current_user)
+          - if current_user.shared_list.articles.exists?(@article.id)
+            %p= link_to "Unshare", remove_article_user_shared_list_path(current_user, @article), :class => "btn btn-inverse btn-block"
+          - else
+            %p= link_to "Share to Friends", add_article_user_shared_list_path(current_user, @article), :class => "btn btn-inverse btn-block"
+      = render :partial => "shared/right_column"
